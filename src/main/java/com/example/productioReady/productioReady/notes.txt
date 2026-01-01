@@ -1,0 +1,18 @@
+// steps to enable hot reload
+
+1 - ctrl + alt + s - will open preferences
+2 - go to Build, execution, deployment
+3 - go to compiler
+4 - tick "Build project automatically"
+5 - In Advanced Settings, go to compiler section and tick "Allow auto-make to start even if developed application is currently running"
+
+we can also control from properties
+spring.devtools.restart.enabled=true
+
+if you want to exclude some packages to not trigger the restart
+spring.devtools.restart.exclude=src/main/java/com/example/productioReady/productioReady/dto/**
+
+
+
+
+
