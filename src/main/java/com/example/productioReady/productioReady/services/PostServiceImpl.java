@@ -50,4 +50,25 @@ public class PostServiceImpl implements PostService {
         return modelMapper.map(postEntity, PostDTO.class);
     }
 
+    @Override
+    public PostDTO updatePost(PostDTO inputPost, Long postId) {
+        PostEntity olderPost = postRepository.
+                findById(postId).
+                orElseThrow(() -> new ResourceNotFoundExceptions("post Not found with id" + postId));
+        inputPost.setId(postId);
+        modelMapper.map(inputPost, olderPost);
+        PostEntity savedPostEntity = postRepository.save(olderPost);
+        return modelMapper.map(savedPostEntity, PostDTO.class);
+    }
+    // in this method we are doing partial update
+    // the steps are
+    // 1. fetch the older entity from DB
+    // 2. update the fields which are non null in input DTO to older entity
+    // 3. save the older entity
+    // 4. convert saved entity to DTO and return
+    // conversion from DTO to entity and entity to DTO is required because we are using ModelMapper
+    // which works with objects not with individual fields
+    // we can use libraries like MapStruct to do field by field mapping.
+
+
 }
