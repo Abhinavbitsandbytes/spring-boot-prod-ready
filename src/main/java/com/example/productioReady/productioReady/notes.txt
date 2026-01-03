@@ -21,6 +21,27 @@ There are some ways to make 3rd party api calls in spring boot
 Rest Client is blocking means synchronous
 Web Client is non-blocking means asynchronous
 
+after adding spring-boot-starter-actuator dependency we can monitor our application health
+http://localhost:8080/actuator/
+
+output -
+{
+"_links": {
+"self": {
+"href": "http://localhost:9000/actuator",
+"templated": false
+},
+"health": {
+"href": "http://localhost:9000/actuator/health",
+"templated": false
+},
+"health-path": {
+"href": "http://localhost:9000/actuator/health/{*path}",
+"templated": true
+}
+}
+}
+
 
 
 
