@@ -61,6 +61,24 @@ To enable specific actuator endpoints, add the following line to application.pro
 management.endpoints.web.exposure.include=health,info,metrics
 
 
+		<dependency>
+			<groupId>org.springdoc</groupId>
+			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+			<version>3.0.1</version>
+		</dependency>
+
+After adding the above dependency, we can access the Swagger UI at
+http://localhost:8080/swagger-ui.html
+or
+http://localhost:8080/swagger-ui/index.html
+
+And the OpenAPI documentation is available at
+http://localhost:9000/v3/api-docs
+
+
+
+
+
 
 
 
