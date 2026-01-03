@@ -24,14 +24,24 @@ public class EmployeeClientImpl implements EmployeeClient {
 
     @Override
     public List<EmployeeDTO> getAllEmployees() {
+        log.trace("trying to retrieve employee list in getAllEmployees");
         try {
            ApiResponse<List<EmployeeDTO>> employeeDTOList = restClient.get()
                     .uri("employees")
                     .retrieve()
+                   .onStatus(HttpStatusCode::is4xxClientError, (req, res) ->{
+                       log.error(new String(res.getBody().readAllBytes()));
+                       // error is related to client i.e 3rd party service
+                       throw new ResourceNotFoundExceptions("Could not create new Employee");
+                   })
                     .body(new ParameterizedTypeReference<>() {
                     });
+           log.debug("Succesfully retrieved employee list");
+           // {} is used to denote code block in log message, we can pass variables after comma to be logged
+           log.trace("Retrived employees list in getAllEmployees: {}", employeeDTOList.getData());
             return employeeDTOList.getData();
         } catch (Exception e) {
+            log.error("exception occurred while retrieving employee list", e);
             throw new RuntimeException(e);
         }
     }
