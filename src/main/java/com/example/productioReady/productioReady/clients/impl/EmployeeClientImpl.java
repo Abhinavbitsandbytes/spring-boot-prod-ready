@@ -7,6 +7,7 @@ import com.example.productioReady.productioReady.exceptions.ResourceNotFoundExce
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
 
@@ -48,7 +49,7 @@ public class EmployeeClientImpl implements EmployeeClient {
     @Override
     public EmployeeDTO createNewEmployee(EmployeeDTO employeeDTO){
         try {
-            ApiResponse<EmployeeDTO> employeeDTOApiResponse = restClient.post()
+            ResponseEntity<ApiResponse<EmployeeDTO>> employeeDTOApiResponse = restClient.post()
                     .uri("employees")
                     .body(employeeDTO)
                     .retrieve()
@@ -56,11 +57,19 @@ public class EmployeeClientImpl implements EmployeeClient {
                         // error is related to client i.e 3rd party service
                         throw new ResourceNotFoundExceptions("Could not create new Employee");
                     })
-                    .body(new ParameterizedTypeReference<>() {
-                    });
-            return employeeDTOApiResponse.getData();
+                    .toEntity(new ParameterizedTypeReference<>() {});
+            // employeeDTOApiResponse contains headers, status code and body
+            // employeeDTOApiResponse.getBody() contains ApiResponse<EmployeeDTO>
+            // employeeDTOApiResponse.getBody().getData() contains EmployeeDTO
+            // employeeDTOApiResponse.getStatusCode() contains status code
+            return employeeDTOApiResponse.getBody().getData();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
 }
+
+// instead of .body, we can also use .toEntity but in that case we have to extract body from entity.
+// using entity we can also extract headers and status code if needed.
+// Also, we can have custom error handling using .onStatus method.
+//
