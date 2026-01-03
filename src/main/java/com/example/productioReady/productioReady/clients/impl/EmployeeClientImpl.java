@@ -28,4 +28,33 @@ public class EmployeeClientImpl implements EmployeeClient {
             throw new RuntimeException(e);
         }
     }
+
+    @Override
+    public EmployeeDTO getEmployeeById(Long employeeId){
+        try {
+            ApiResponse<EmployeeDTO> employeeDTO = restClient.get()
+                    .uri("employees/{employeeId}", employeeId)
+                    .retrieve()
+                    .body(new ParameterizedTypeReference<>() {
+                    });
+            return employeeDTO.getData();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public EmployeeDTO createNewEmployee(EmployeeDTO employeeDTO){
+        try {
+            ApiResponse<EmployeeDTO> employeeDTOApiResponse = restClient.post()
+                    .uri("employees")
+                    .body(employeeDTO)
+                    .retrieve()
+                    .body(new ParameterizedTypeReference<>() {
+                    });
+            return employeeDTOApiResponse.getData();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

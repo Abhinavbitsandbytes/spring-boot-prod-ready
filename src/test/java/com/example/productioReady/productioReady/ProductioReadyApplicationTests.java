@@ -2,46 +2,43 @@ package com.example.productioReady.productioReady;
 
 import com.example.productioReady.productioReady.clients.EmployeeClient;
 import com.example.productioReady.productioReady.dto.EmployeeDTO;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @SpringBootTest
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class ProductioReadyApplicationTests {
 
 	@Autowired
 	private EmployeeClient employeeClient;
 	@Test
+	@Order(3)
 	void getAllEmployees() {
 		List<EmployeeDTO> employeeDTOList = employeeClient.getAllEmployees();
 		System.out.println(employeeDTOList);
 	}
 
-	// Here we are calling the employee client to fetch all employees and print them out.
-	// steps -
-	// 1. Create 1 employee by running the Employee Service application
-	//	     - uri - http://localhost:8080/employees
-	//		 - method - POST
-	//		 - body - {"name": "Abhinav",
-	//    "email": "abhi@gmail.com",
-	//    "age": 20,
-	//    "dateOfJoining": "2025-08-18",
-	//    "isActive": true,
-	//    "role": "USER",
-	//    "salary": 5000.00
-	//}
-	// this will create 1 employee in the Employee Service database
-	// 2. Now run this test case to fetch all employees from Employee Service using EmployeeClient
+	@Test
+	@Order(2)
+	void getEmployeeById(){
+		EmployeeDTO employeeDTO = employeeClient.getEmployeeById(1L);
+		System.out.println(employeeDTO);
+	}
 
-	// Expected Output -
-//	[EmployeeDTO(id=1, name=Abhinav, email=abhi@gmail.com, age=20, role=USER, salary=5000.0, dateOfJoining=2025-08-18, isActive=null)]
+	@Test
+	@Order(1)
+	void createNewEmployee() {
+		EmployeeDTO newEmployeeDTO = new EmployeeDTO(null, "Abhinav", "Abhinav@gmail.com", 20, "USER", 5000.0, LocalDate.of(2020, 12, 1), true);
+		;
+		EmployeeDTO createdEmployee = employeeClient.createNewEmployee(newEmployeeDTO);
+		System.out.println(createdEmployee);
 
-	// it means we have successfully fetched the employee data from Employee Service using EmployeeClient (third party service)
-
-
-
-
-
+	}
 }
