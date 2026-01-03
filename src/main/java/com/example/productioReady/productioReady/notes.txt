@@ -42,6 +42,24 @@ output -
 }
 }
 
+some famous actuator endpoints
+/actuator/health -> shows application health
+/actuator/metrics -> shows application metrics
+/actuator/loggers -> shows application log levels
+/actuator/threaddump -> shows thread dump of the application
+/actuator/httptrace -> shows http trace of the application
+/actuator/env -> shows environment properties
+/actuator/info -> shows application info
+/actuator/mappings -> shows all the request mappings
+/actuator/prometheus -> shows prometheus metrics
+/actuator/conditions -> shows auto-configuration conditions
+
+
+To enable all actuator endpoints, add the following line to application.properties
+management.endpoints.web.exposure.include=*
+To enable specific actuator endpoints, add the following line to application.properties
+management.endpoints.web.exposure.include=health,info,metrics
+
 
 
 
