@@ -12,6 +12,15 @@ spring.devtools.restart.enabled=true
 if you want to exclude some packages to not trigger the restart
 spring.devtools.restart.exclude=src/main/java/com/example/productioReady/productioReady/dto/**
 
+making 3rd party api calls
+There are some ways to make 3rd party api calls in spring boot
+1 - Rest Template (Deprecated)
+2 - Web Client
+3 - Rest Client
+
+Rest Client is blocking means synchronous
+Web Client is non-blocking means asynchronous
+
 
 
 
