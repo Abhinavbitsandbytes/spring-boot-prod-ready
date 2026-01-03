@@ -5,6 +5,8 @@ import com.example.productioReady.productioReady.clients.EmployeeClient;
 import com.example.productioReady.productioReady.dto.EmployeeDTO;
 import com.example.productioReady.productioReady.exceptions.ResourceNotFoundExceptions;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +17,8 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class EmployeeClientImpl implements EmployeeClient {
+
+    Logger log = LoggerFactory.getLogger(EmployeeClientImpl.class);
 
     private final RestClient restClient;
 
