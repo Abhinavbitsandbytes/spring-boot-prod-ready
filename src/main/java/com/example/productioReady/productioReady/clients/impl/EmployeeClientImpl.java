@@ -3,8 +3,10 @@ package com.example.productioReady.productioReady.clients.impl;
 import com.example.productioReady.productioReady.advice.ApiResponse;
 import com.example.productioReady.productioReady.clients.EmployeeClient;
 import com.example.productioReady.productioReady.dto.EmployeeDTO;
+import com.example.productioReady.productioReady.exceptions.ResourceNotFoundExceptions;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
 
@@ -50,6 +52,10 @@ public class EmployeeClientImpl implements EmployeeClient {
                     .uri("employees")
                     .body(employeeDTO)
                     .retrieve()
+                    .onStatus(HttpStatusCode::is4xxClientError, (req, res) ->{
+                        // error is related to client i.e 3rd party service
+                        throw new ResourceNotFoundExceptions("Could not create new Employee");
+                    })
                     .body(new ParameterizedTypeReference<>() {
                     });
             return employeeDTOApiResponse.getData();
